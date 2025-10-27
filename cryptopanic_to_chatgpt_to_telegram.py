@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
 cryptopanic_to_chatgpt_to_telegram.py
-Fixed version for Render deployment.
+Fixed version including a minimal 'imghdr' stub for Python 3.13 compatibility.
 """
 
 import os
+import sys
+import types
 import time
 import json
 import logging
@@ -12,6 +14,12 @@ import threading
 from io import BytesIO
 from pathlib import Path
 from typing import Optional, Dict, Any, List
+
+# Create a minimal stub for imghdr if running on Python 3.13 where it's removed.
+# This allows python-telegram-bot (which imports imghdr) to import without failing.
+if "imghdr" not in sys.modules:
+    sys.modules["imghdr"] = types.ModuleType("imghdr")
+
 import requests
 from bs4 import BeautifulSoup
 from PIL import Image, ImageDraw, ImageFont
